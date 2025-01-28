@@ -1,0 +1,123 @@
+/* ___
+
+~~~ CSS BOILERPLATE ~~~
+Last updated: 1/27/2025
+
+___ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 
+
+"border: none;" is a CSS rule that features in a lot of CSS resets. Buttons, dialogs, form-related elements, and images on Firefox all have borders by default. This is great for usability because borders can increase the affordance of interactive elements, but if you’d rather address affordance differently, use the following code snippet to remove all borders altogether:
+
+* {
+    border: none;
+}
+
+Source: https://blog.logrocket.com/what-should-modern-css-boilerplate-look-like/
+
+*/
+
+img {
+    display: block;
+    max-width: 100%; /* prevents images from blowing up their containers for absolutely no reason at all. Why? Because containers should contain! */
+}
+
+/* --- Reset (most) lists ---
+
+Whether you’re using ordered lists (ol), unordered lists (ul), or menus (<menu>), it’s unlikely that you’ll want the list markers (i.e., bullets, numbers, etc.,) that come with them since they look rather unsightly on user interfaces. The following snippet removes them, but not from those used in articles where it makes sense to use them in their natural form: */
+
+menu:not(article menu),
+ol:not(article ol),
+ul:not(article ul) {
+    list-style: none;
+}
+
+/* Annoyingly, they also have some padding on the left side, which you’ll want to remove inherently: */
+
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+
+/* Additionally, since list markers appear on the outside of lists, removing the padding using the snippet above can cause the list markers (the ones used in articles that we’re not resetting) to overlap neighboring content or overflow the viewport, so you’ll want to switch them to the inside instead: */
+
+article ol,
+article ul {
+    list-style-position: inside;
+}
+
+/* Tip: Add the role="list" attribute-value to all lists that you’d like screen readers to announce as such, because list-style: none; disables this ability in some web browsers. */
+
+/* --- Enhance link underlines ---
+
+As a designer, I believe that typography is the most important part of a design’s aesthetic. I also believe that buttons are overused, although this makes sense since underlinked links aren’t pleasant to look at. However, there’s now a way to make underlines thicker (to match the size and weight of the font) and spacier. It only requires two CSS properties: */
+
+a {
+    text-underline-position: under;  /* Places underlines below the descenders */
+
+    text-decoration-thickness: 8;  /* Sets the thickness as a percentage of the font size */
+}
+
+/* --- Change the root font size ---
+
+If you prefer using rem units (which are better for accessibility), 1rem is equal to 16px (the default root font size). Naturally, it’s much easier to convert px to rem when 1rem is equal to 10px, but to do that, you’ll need to change the root font size to 62.5%, like so:
+
+BE AWARE: The base font-size is determined by the users pre-defined preferences within the browser. In almost every browser, 16px is the standard for proportional fonts. This can also change dependant on if the font uses serifs or is a fixed width font.
+
+NOTE TO SELF: This may not be necessary to be worried about unless you are trying to build from a pixel-perfect mockup.
+
+/* <html> = the root */
+
+html {
+    font-size: 62.5%; 
+    /* (62.5/100) * 16px = 10px */
+    /* Now 1rem = 10px instead of 16px */
+}
+
+/* --- Disable the text inflation algorithm ---
+
+On smartphones and tablets, web browsers inflate the font sizes of text elements that use 100 percent of the viewport’s width using a text inflation algorithm. This is done with the best intentions (to enhance readability), but it can be quite unpredictable, with some elements being hit by the algorithm and some not. To disable this algorithm, you’ll want to apply text-size-adjust: none; to the root/<html>:*/
+
+html {
+  -webkit-text-size-adjust: none; /* for iOS Safari */
+  text-size-adjust: none; /* for other mobile browsers */
+}
+
+/* --- Enable smooth scrolling --- 
+
+Instead of instantly snapping to same-page anchors and text fragments, scroll-behavior: smooth; enables users to scroll to them smoothly. Also, to cater to those that prefer reduced motion for accessibility reasons, the rule is wrapped in a prefers-reduced-motion: no-preference media query: */
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* --- Rethink how focus works ---
+
+A less aggressive approach to styling interactive elements that are currently being focused on. More specifically, this declaration removes the outline for mouse users but keeps it for keyboard users. */
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* --- Provide interactive elements with a cursor :-moz-ui-invalid
+
+The following snippet adds pointer cursors to interactive elements that don’t already have an alternative cursor, for example, text inputs, text areas, and more: */
+
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
