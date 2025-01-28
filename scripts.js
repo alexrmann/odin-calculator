@@ -48,3 +48,24 @@ function divide(x, y) {
 // divide(10, 5);
 // 2
 // returns undefined
+
+// --- OPERATE ---
+// 1/27/2025: This section in progress. 
+
+let operand1;
+let operand2;
+let operator;
+
+function operate(operation, num1, num2) {
+    if (operation == '*') {
+        multiply(num1, num2);
+    } else if (operation == '/') {
+        divide(num1, num2);
+    } else if (operation == '+') {
+        add(num1, num2);
+    } else {
+        subtract(num1, num2);
+    }
+}
+
+operate(operator, operand1, operand2);
