@@ -1,9 +1,9 @@
-/* ___
+/* 
 
 ~~~ CSS BOILERPLATE ~~~
 Last updated: 1/27/2025
 
-___ */
+ */
 
 *,
 *::before,
@@ -121,3 +121,38 @@ summary,
 [type=checkbox] {
     cursor: pointer;
 }
+
+
+/*  ~~~ BEGIN PROJECT STYLES ~~~  */
+
+.calculator {}
+.display {}
+.buttons {}
+
+.button {}
+.operator {} 
+.digit {}
+
+#clear-all {}
+#clear-current {}
+#delete {}
+
+#divide {}
+#multiply {}
+#add {}
+#subtract {}
+
+#zero {}
+#one {}
+#two {}
+#three {}
+#four {}
+#five {}
+#six {}
+#seven {}
+#eight {}
+#nine {}
+
+#positive-negative {}
+#decimal {}
+#equals {}
