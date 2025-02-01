@@ -125,34 +125,74 @@ summary,
 
 /*  ~~~ BEGIN PROJECT STYLES ~~~  */
 
-.calculator {}
-.display {}
-.buttons {}
+/* Structural elements */
 
-.button {}
-.operator {} 
-.digit {}
+body {
+    height: calc(100vh - 2rem);       
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gainsboro;
+    font-size: 1.6rem;
+    font-family: Helvetica, Arial, sans-serif;
+}
 
-#clear-all {}
-#clear-current {}
-#delete {}
+.calculator {
+    background-color: gray;
+    padding: 1rem;
+    width: 35rem;
+}
 
-#divide {}
-#multiply {}
-#add {}
-#subtract {}
+.display {
+    background-color: skyblue;
+    border-radius: 0.5rem;
+    height: 8rem;
+    display: flex;
+    padding: 1rem;
+    justify-content: end;
+    align-items: center;
+    font-size: 4rem;
+}
 
-#zero {}
-#one {}
-#two {}
-#three {}
-#four {}
-#five {}
-#six {}
-#seven {}
-#eight {}
-#nine {}
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 
-#positive-negative {}
-#decimal {}
-#equals {}
+
+/* Button types */
+
+.button {
+    display: flex;
+    flex: 1 1 auto;
+    width: 60px;
+    background-color: mintcream;
+    border-radius: 0.5em;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.operator {
+    background-color: darkorange;
+} 
+
+.digit {
+    font-size: 2rem;
+}
+
+
+/* Button identifiers */
+
+#clear-all,
+#clear-current,
+#delete {
+    background-color: lightgray;
+}
+
+#equals {
+    background-color: mediumblue;
+    color: white;
+}
