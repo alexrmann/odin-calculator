@@ -172,17 +172,18 @@ body {
     background-color: mintcream;
     border-radius: 0.5em;
     padding: 2rem;
+    align-items: center;
     justify-content: center;
+    font-size: 2.4rem;
 }
 
-.operator {
-    background-color: darkorange;
-} 
-
-.digit {
+.clear-buttons {
     font-size: 2rem;
 }
 
+.operators {
+    background-color: darkorange;
+} 
 
 /* Button identifiers */
 
