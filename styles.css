@@ -144,7 +144,7 @@ body {
     width: 35rem;
 }
 
-.display {
+#display {
     background-color: skyblue;
     border-radius: 0.5rem;
     height: 8rem;
@@ -165,11 +165,12 @@ body {
 
 /* Button types */
 
-.button {
+button {
     display: flex;
     flex: 1 1 auto;
     width: 60px;
     background-color: mintcream;
+    border: none;
     border-radius: 0.5em;
     padding: 2rem;
     align-items: center;

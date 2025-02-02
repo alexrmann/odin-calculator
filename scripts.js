@@ -52,8 +52,8 @@ function divide(x, y) {
 
 // --- GLOBAL VARIABLES ---
 
-const display = document.querySelector('.display');
-const buttons = document.querySelectorAll('.button');
+const display = document.querySelector('#display');
+const buttons = document.querySelectorAll('button');
 
 display.innerText = 0;
 let operand1 = null;
@@ -83,15 +83,10 @@ operate(operator, operand1, operand2);
 // --- DISPLAY FUNCTIONS ---
 // 2/1/2025: In progress
 
-function buttonClick() {
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener("click", updateDisplay);
-    }
-
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", updateDisplay);
 }
 
-buttonClick();
- 
 function updateDisplayDraft1() {
     const display = document.getElementById('display');
     display.innerText = displayValue;
