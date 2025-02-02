@@ -77,7 +77,6 @@ function operate(operation, num1, num2) {
     }
 }
 
-operate(operator, operand1, operand2);
 
 
 // --- DISPLAY FUNCTIONS ---
@@ -87,20 +86,26 @@ for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", updateDisplay);
 }
 
-function updateDisplayDraft1() {
-    const display = document.getElementById('display');
-    display.innerText = displayValue;
-    if(displayValue.length > 9) {
+function updateDisplay() {
+    // Assign the clicked button text to variable
+    let displayValue = this.innerText;
+    console.log(displayValue);
+
+    // Prevent display text overflow
+    if (displayValue.length > 9) {
         display.innerText = displayValue.substring(0, 9);
     }
+
+    display.innerText = displayValue;
 }
 
+/*
 function updateDisplayDraft2(button) {  
     let button = buttons[i];
     // when button is clicked display its content
     display.innerText = button.innerText;
 }
-
+*/
 function clearDisplay() {
     display.innerText = "0";
     operand1 = null;
