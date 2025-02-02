@@ -188,6 +188,10 @@ button {
 
 /* Button identifiers */
 
+#clear-all {
+    width: 145px;
+}
+
 #clear-all,
 #clear-current,
 #delete {
