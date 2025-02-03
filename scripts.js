@@ -66,35 +66,50 @@ for (let i = 0; i < buttons.length; i++) {
 
 function inputOperand(value) {
     
-    if (currentOperand == null) {
+    // 2/2/2025
+    // Need to fix bug where after pressing operator button, the next digit pressed results in concatenation to the previous operand
+
+    if (currentOperand == null || currentOperand == "0") {
         currentOperand = value;
-    } else if (currentOperand == "0") {
+    } else if (previousOperand == null && (currentOperand != null || currentOperand == "0")) {
+        previousOperand = currentOperand;
         currentOperand = value;
     } else {
         currentOperand = currentOperand.concat(value);
     }
-    
+
     displayValue = currentOperand;
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 function inputOperator(value) {
     
-    if (currentOperand == null) {
+    if (previousOperand == null && currentOperand == null) {
         displayValue = 'ERROR';
-    } else if (currentOperator == null) {
+    } else if (currentOperand !=null && previousOperand == null) {
+        currentOperator = value;
+    } 
+    
+    // NEED TO RESOLVE THIS BUG LOGIC
+
+    if (currentOperator == null) {
+        currentOperator = value;
+    } else if {
+        previousOperator = currentOperator;
         currentOperator = value;
     } else {
         previousOperator = currentOperator;
         currentOperator = value;
+        previousOperand = operate(currentOperator, Number(previousOperand), Number(currentOperand));
+        currentOperand = null;
     }
-        
+    
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 
 function inputEquals() {
-    operate(currentOperator, previousOperand, currentOperand);
+    operate(currentOperator, Number(previousOperand), Number(currentOperand));
     displayValue = result;
     console.log(`Display: ${displayValue}\nResult: ${result}`);
 }
@@ -122,21 +137,46 @@ function inputDelete() {
 }
 
 // --- OPERATE --- 
+// Bug, 2/2/2025: Operations currently don't work.
 
 function operate(operation, operand1, operand2) {
 
-    if (operation == 'plus') {
-        result = multiply(operand1, operand2);
-    } else if (operation == 'minus') {
-        result = subtract(operand1, operand2);
-    } else if (operation == 'divide') {
-        result = divide(operand1, operand2);
-    } else if (operation == 'add') {
-        result = add(operand1, operand2);
+    console.log(`Operation: ${operation}\nFirst Operand: ${operand1}\nSecond Operand: ${operand2}`);
+    if (operand1 == null) {
+        // If equals is pressed when no current operand, display zero.
+        result = 0;
+    } else {
+        switch(operation) {
+            case 'plus':
+                result = add(operand1, operand2);
+                break;
+            case 'minus':
+                result = subtract(operand1, operand2);
+                break;
+            case 'times':
+                result = multiply(operand1, operand2);
+                break;
+            case 'divide':
+                if(operand2 == 0) {
+                    result = "ERROR DIV 0";
+                    // This will likely produce a bug where the operands are not cleared. 
+                    previousOperand = null;
+                    currentOperand = null;
+                    previousOperator = null;
+                    currentOperator = null;
+                }
+                result = divide(operand1, operand2);
+        }
     }
+    
+    // Reset globals for next operation
+    previousOperand = currentOperand;
+    currentOperand = null;
+    previousOperator = currentOperator;
+    currentOperator = null;
 
     console.log(result);
-    return result;
+    return result; // Should investigate whether the result should be passed through to other functions or whether this is bug prone.
 }
 
 /* ~~~ ARITHMETIC ~~~ 
