@@ -46,6 +46,7 @@ for (let i = 0; i < buttons.length; i++) {
             updateDisplay();
         } else if (buttons[i].classList.contains('operator')) {
             inputOperator(buttons[i].value);
+            updateDisplay();
         } else if (buttons[i].id == 'equals') {
             inputEquals();
             updateDisplay();
@@ -83,27 +84,38 @@ function inputOperand(value) {
 }
 
 function inputOperator(value) {
-    
-    if (previousOperand == null && currentOperand == null) {
-        displayValue = 'ERROR';
-    } else if (currentOperand !=null && previousOperand == null) {
-        currentOperator = value;
-    } 
-    
-    // NEED TO RESOLVE THIS BUG LOGIC
 
-    if (currentOperator == null) {
-        currentOperator = value;
-    } else if {
-        previousOperator = currentOperator;
+    // NEED TO RESOLVE THIS BUGGED LOGIC
+    // Might need to start this function over because this is getting confusing.
+    
+    if ((previousOperand == null) && (currentOperand == null)) {
+        displayValue = 'ERROR';
+    } else if (currentOperator == null) {      
         currentOperator = value;
     } else {
+        // previousOperator = currentOperator;
+        // currentOperator = value;
+        if ((currentOperand != null) && (previousOperand == null)) {
+            currentOperator = value;
+            previousOperand = currentOperand;
+            currentOperand = null;
+        } else if ((currentOperand == null) && (previousOperand != null)) {
+            currentOperator = value;
+        } else if ((currentOperand != null) && (previousOperand != null)) {
+            operate(currentOperator, Number(previousOperand), Number(currentOperand));
+            displayValue = result;
+            previousOperator = currentOperator;
+            currentOperator = value;
+        }
+    } 
+    
+    /* else {
         previousOperator = currentOperator;
         currentOperator = value;
-        previousOperand = operate(currentOperator, Number(previousOperand), Number(currentOperand));
+        previousOperand = 
         currentOperand = null;
-    }
-    
+    } */
+
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
