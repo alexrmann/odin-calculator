@@ -1,59 +1,3 @@
-// --- ADDITION ---
-
-function add(x,y) {
-	let sum = x + y;
-	console.log(sum);
-    return sum;
-}
-// returns undefined
-
-// add(3,4);
-// 7
-// returns undefined
-
-
-// --- SUBTRACTION ---
-
-function subtract(x,y) {
-	let difference = x - y;
-	console.log(difference);
-    return difference;
-}
-// returns undefined
-
-// subtract(10, 6);
-// 4
-// returns undefined
-
-
-// --- MULTIPLICATION ---
-
-function multiply(x,y) {
-	let product = x * y;
-	console.log(product);
-    return product;
-}
-// returns undefined
-
-// multiply(3, 2);
-// 6
-// returns undefined
-
-
-// --- DIVISION ---
-
-function divide(x, y) {
-	let quotient = x / y;
-	console.log(quotient);
-    return quotient;
-}
-// returns undefined
-
-// divide(10, 5);
-// 2
-// returns undefined
-
-
 // --- GLOBAL VARIABLES ---
 
 const display = document.querySelector('#display');
@@ -111,6 +55,9 @@ for (let i = 0; i < buttons.length; i++) {
         } else if (buttons[i].id == 'sign') {
             inputSign(displayValue);
             updateDisplay();
+        } else if (buttons[i].id == 'delete') {
+            inputDelete();
+            updateDisplay();
         } else if (buttons[i].id == 'clear')
             clearDisplay();
             updateDisplay();
@@ -118,10 +65,10 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 function inputOperand(value) {
-
-    // 2/2/2025: Need to remove bug where pressing 'Zero' button results in a leading '0' on the display.
     
     if (currentOperand == null) {
+        currentOperand = value;
+    } else if (currentOperand == "0") {
         currentOperand = value;
     } else {
         currentOperand = currentOperand.concat(value);
@@ -135,10 +82,9 @@ function inputOperator(value) {
     
     if (currentOperand == null) {
         displayValue = 'ERROR';
-    }   else if (currentOperator == null) {
+    } else if (currentOperator == null) {
         currentOperator = value;
-    }
-        else {
+    } else {
         previousOperator = currentOperator;
         currentOperator = value;
     }
@@ -148,34 +94,86 @@ function inputOperator(value) {
 
 
 function inputEquals() {
-    operate(currentOperator, firstOperand, lastOperand);
+    operate(currentOperator, previousOperand, currentOperand);
     displayValue = result;
-    console.log(`Display: ${displayValue}`);
+    console.log(`Display: ${displayValue}\nResult: ${result}`);
 }
 
 // IN PROGRESS
 function inputSign(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
+
 function inputDecimal(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
-// --- OPERATE ---
-// 1/27/2025: This section in progress. 
+function inputDelete() {
+    
+    if (currentOperand.length == 1) {
+        currentOperand = null;
+        displayValue = "0";
+    } else {
+        currentOperand = currentOperand.substring(0, currentOperand.length - 1);
+        displayValue = currentOperand;
+    }
+
+    console.log(`Display: ${displayValue}\nCurrent Operand: ${currentOperand}`);
+}
+
+// --- OPERATE --- 
 
 function operate(operation, operand1, operand2) {
 
     if (operation == 'plus') {
         result = multiply(operand1, operand2);
+    } else if (operation == 'minus') {
+        result = subtract(operand1, operand2);
     } else if (operation == 'divide') {
         result = divide(operand1, operand2);
     } else if (operation == 'add') {
         result = add(operand1, operand2);
-    } else {
-        result = subtract(operand1, operand2);
     }
 
     console.log(result);
     return result;
+}
+
+/* ~~~ ARITHMETIC ~~~ 
+
+All functions return undefined.
+
+*/
+
+
+// --- Addition ---
+
+function add(x,y) {
+	let sum = x + y;
+	console.log(sum);
+    return sum;
+}
+
+// --- Subtraction ---
+
+function subtract(x,y) {
+	let difference = x - y;
+	console.log(difference);
+    return difference;
+}
+
+// --- Multiplication ---
+
+function multiply(x,y) {
+	let product = x * y;
+	console.log(product);
+    return product;
+}
+
+// --- Division ---
+
+function divide(x, y) {
+	let quotient = x / y;
+	console.log(quotient);
+    return quotient;
 }
