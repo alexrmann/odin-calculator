@@ -173,6 +173,7 @@ button {
     flex: 1 1 auto;
     width: 60px;
     background-color: mintcream;
+    color: black;
     border: none;
     border-radius: 0.5em;
     padding: 2rem;
