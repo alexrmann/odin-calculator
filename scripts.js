@@ -131,7 +131,7 @@ function inputSign() {
     }
 
     displayValue = currentOperand;
-    console.log(`Input: ${value}\nDisplay: ${displayValue}`);
+    console.log(`Display: ${displayValue}`);
 }
 
 function inputDecimal(value) {
