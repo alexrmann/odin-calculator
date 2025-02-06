@@ -173,13 +173,20 @@ button {
     flex: 1 1 auto;
     width: 60px;
     background-color: mintcream;
-    color: black;
     border: none;
     border-radius: 0.5em;
     padding: 2rem;
     align-items: center;
     justify-content: center;
     font-size: 2.4rem;
+}
+
+input[type=button] { 
+    /* Override Apple iOs default */
+    -webkit-appearance: none;
+
+    /* Explicitly set button color */
+    color: #000000;
 }
 
 .clear-buttons {
