@@ -113,11 +113,19 @@ function inputEquals() {
 
 // IN PROGRESS
 function inputSign(value) {
+    if (Math.sign(currentOperand) >= 0) {
+        currentOperand = -Math.abs(currentOperand);
+    } else {
+        currentOperand = Math.abs(currentOperand);
+    }
+
+    displayValue = currentOperand;
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
-// IN PROGRESS
 function inputDecimal(value) {
+    currentOperand = currentOperand.concat(value);
+    displayValue = currentOperand;
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
