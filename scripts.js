@@ -7,8 +7,6 @@ let displayValue = '0';
 let currentOperand = null;
 let previousOperand = null;
 let currentOperator = null;
-let previousOperator = null;
-let operation = null;
 let result = null;
 
 // --- INITIALIZE CALCULATOR ---
@@ -16,12 +14,14 @@ let result = null;
 updateDisplay();
 
 // --- DISPLAY FUNCTIONS ---
-// 2/1/2025: In progress
 
 function updateDisplay() {
     // Update the display
     display.innerText = displayValue;
-    
+
+    // 2/5/2025
+    // Substring not working with results--only input.
+
     // Prevent display text overflow
     if (displayValue.length > 12) {
         display.innerText = displayValue.substring(0, 12);
@@ -33,7 +33,6 @@ function clearDisplay() {
     currentOperand = null;
     previousOperand = null;
     currentOperator = null;
-    previousOperator = null;
     result = null;
 }
 
@@ -66,14 +65,8 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 function inputOperand(value) {
-    
-    // 2/2/2025
-    // Need to fix bug where after pressing operator button, the next digit pressed results in concatenation to the previous operand
 
     if (currentOperand == null || currentOperand == "0") {
-        currentOperand = value;
-    } else if (previousOperand == null && (currentOperand != null || currentOperand == "0")) {
-        previousOperand = currentOperand;
         currentOperand = value;
     } else {
         currentOperand = currentOperand.concat(value);
@@ -84,37 +77,29 @@ function inputOperand(value) {
 }
 
 function inputOperator(value) {
-
-    // NEED TO RESOLVE THIS BUGGED LOGIC
-    // Might need to start this function over because this is getting confusing.
     
-    if ((previousOperand == null) && (currentOperand == null)) {
-        displayValue = 'ERROR';
-    } else if (currentOperator == null) {      
-        currentOperator = value;
+    if (currentOperator == null) {
+        switch(currentOperand) {
+            case null:    
+                break;
+            default: 
+                previousOperand = currentOperand;
+                currentOperand = null;
+                currentOperator = value; 
+        }
     } else {
-        // previousOperator = currentOperator;
-        // currentOperator = value;
-        if ((currentOperand != null) && (previousOperand == null)) {
-            currentOperator = value;
+        if (previousOperand == null) {
             previousOperand = currentOperand;
-            currentOperand = null;
-        } else if ((currentOperand == null) && (previousOperand != null)) {
-            currentOperator = value;
-        } else if ((currentOperand != null) && (previousOperand != null)) {
+        } else {
             operate(currentOperator, Number(previousOperand), Number(currentOperand));
             displayValue = result;
-            previousOperator = currentOperator;
-            currentOperator = value;
+            previousOperand = result;
+            console.log(previousOperand);
         }
-    } 
-    
-    /* else {
-        previousOperator = currentOperator;
+
         currentOperator = value;
-        previousOperand = 
         currentOperand = null;
-    } */
+    } 
 
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
@@ -131,12 +116,13 @@ function inputSign(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
+// IN PROGRESS
 function inputDecimal(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 function inputDelete() {
-    
+
     if (currentOperand.length == 1) {
         currentOperand = null;
         displayValue = "0";
@@ -149,14 +135,18 @@ function inputDelete() {
 }
 
 // --- OPERATE --- 
-// Bug, 2/2/2025: Operations currently don't work.
 
 function operate(operation, operand1, operand2) {
 
     console.log(`Operation: ${operation}\nFirst Operand: ${operand1}\nSecond Operand: ${operand2}`);
-    if (operand1 == null) {
-        // If equals is pressed when no current operand, display zero.
-        result = 0;
+    if (previousOperand == null) {
+        switch(currentOperand) {
+            case null: // If equals is pressed when no current operand, display zero.
+                result = 0;
+                break;
+            default:
+                result = currentOperand;
+        }
     } else {
         switch(operation) {
             case 'plus':
@@ -171,32 +161,28 @@ function operate(operation, operand1, operand2) {
             case 'divide':
                 if(operand2 == 0) {
                     result = "ERROR DIV 0";
-                    // This will likely produce a bug where the operands are not cleared. 
-                    previousOperand = null;
-                    currentOperand = null;
-                    previousOperator = null;
-                    currentOperator = null;
+                    break;
+                } else {
+                    result = divide(operand1, operand2);
                 }
-                result = divide(operand1, operand2);
         }
     }
     
-    // Reset globals for next operation
-    previousOperand = currentOperand;
-    currentOperand = null;
-    previousOperator = currentOperator;
+    // Set globals for next operation
+    if (result == "ERROR DIV 0") {
+        currentOperand = null;
+    } else {
+        currentOperand = result;
+    }
+    previousOperand = null;
     currentOperator = null;
+    
+    result = result.toString();
 
-    console.log(result);
-    return result; // Should investigate whether the result should be passed through to other functions or whether this is bug prone.
+    return result;
 }
 
-/* ~~~ ARITHMETIC ~~~ 
-
-All functions return undefined.
-
-*/
-
+/* ~~~ ARITHMETIC ~~~ */
 
 // --- Addition ---
 
