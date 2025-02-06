@@ -140,8 +140,9 @@ body {
 
 .calculator {
     background-color: gray;
-    padding: 1rem;
+    padding: 1.5rem;
     width: 35rem;
+    border-radius: 1rem;
 }
 
 #display {
