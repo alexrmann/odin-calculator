@@ -57,7 +57,7 @@ article ul {
 
 /* --- Enhance link underlines ---
 
-As a designer, I believe that typography is the most important part of a design’s aesthetic. I also believe that buttons are overused, although this makes sense since underlinked links aren’t pleasant to look at. However, there’s now a way to make underlines thicker (to match the size and weight of the font) and spacier. It only requires two CSS properties: */
+As a designer, I believe that typography is the most important part of a design’s aesthetic. I also believe that buttons are overused, although this makes sense since underlined links aren’t pleasant to look at. However, there’s now a way to make underlines thicker (to match the size and weight of the font) and spacier. It only requires two CSS properties: */
 
 a {
     text-underline-position: under;  /* Places underlines below the descenders */
@@ -144,7 +144,7 @@ body {
     width: 35rem;
 }
 
-.display {
+#display {
     background-color: skyblue;
     border-radius: 0.5rem;
     height: 8rem;
@@ -165,11 +165,12 @@ body {
 
 /* Button types */
 
-.button {
+button {
     display: flex;
     flex: 1 1 auto;
     width: 60px;
     background-color: mintcream;
+    border: none;
     border-radius: 0.5em;
     padding: 2rem;
     align-items: center;
@@ -181,14 +182,17 @@ body {
     font-size: 2rem;
 }
 
-.operators {
+.operator {
     background-color: darkorange;
 } 
 
 /* Button identifiers */
 
-#clear-all,
-#clear-current,
+#clear {
+    width: 145px;
+}
+
+#clear,
 #delete {
     background-color: lightgray;
 }
