@@ -84,7 +84,6 @@ function inputOperand(value) {
     }
 
     displayValue = currentOperand;
-    console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 function inputOperator(value) {
@@ -105,21 +104,18 @@ function inputOperator(value) {
             operate(currentOperator, Number(previousOperand), Number(currentOperand));
             displayValue = result;
             previousOperand = result;
-            console.log(previousOperand);
         }
 
         currentOperator = value;
         currentOperand = null;
     } 
 
-    console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 
 function inputEquals() {
     operate(currentOperator, Number(previousOperand), Number(currentOperand));
     displayValue = result;
-    console.log(`Display: ${displayValue}\nResult: ${result}`);
 }
 
 // IN PROGRESS
@@ -131,13 +127,11 @@ function inputSign() {
     }
 
     displayValue = currentOperand;
-    console.log(`Display: ${displayValue}`);
 }
 
 function inputDecimal(value) {
     currentOperand = currentOperand.concat(value);
     displayValue = currentOperand;
-    console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
 function inputDelete() {
@@ -153,15 +147,11 @@ function inputDelete() {
             displayValue = currentOperand;
         }
     }
-
-    console.log(`Display: ${displayValue}\nCurrent Operand: ${currentOperand}`);
 }
 
 // --- OPERATE --- 
 
 function operate(operation, operand1, operand2) {
-
-    console.log(`Operation: ${operation}\nFirst Operand: ${operand1}\nSecond Operand: ${operand2}`);
     if (previousOperand == null) {
         switch(currentOperand) {
             case null: // If equals is pressed when no current operand, display zero.
@@ -180,8 +170,6 @@ function operate(operation, operand1, operand2) {
                 break;
             case 'times':
                 result = multiply(operand1, operand2);
-                console.log(result);
-                console.log(result.toString().length);
                 break;
             case 'divide':
                 if(operand2 === 0) {
@@ -197,15 +185,12 @@ function operate(operation, operand1, operand2) {
     if (result == "ERROR DIV 0") { // This only displays after hitting the Equals button or inputting a new operator.
         currentOperand = null;
     } else if (result.toString().length > 12) {
-        console.log(typeof result); 
         result = result.toExponential(4); // This will handle most cases with sufficient info, but it results in less accuracy.
         currentOperand = result;
     } else {
         result = result.toString();
         currentOperand = result;
     }
-
-    console.log(result);
 
     previousOperand = null;
     currentOperator = null;
@@ -220,7 +205,6 @@ function operate(operation, operand1, operand2) {
 
 function add(x,y) {
 	let sum = x + y;
-	console.log(sum);
     return sum;
 }
 
@@ -228,7 +212,6 @@ function add(x,y) {
 
 function subtract(x,y) {
 	let difference = x - y;
-	console.log(difference);
     return difference;
 }
 
@@ -236,7 +219,6 @@ function subtract(x,y) {
 
 function multiply(x,y) {
 	let product = x * y;
-	console.log(product);
     return product;
 }
 
@@ -244,6 +226,5 @@ function multiply(x,y) {
 
 function divide(x, y) {
 	let quotient = x / y;
-	console.log(quotient);
     return quotient;
 }
