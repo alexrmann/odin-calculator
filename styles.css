@@ -134,6 +134,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: gainsboro;
+    color: black;
     font-size: 1.6rem;
     font-family: Helvetica, Arial, sans-serif;
 }
@@ -143,6 +144,7 @@ body {
     padding: 1.5rem;
     width: 35rem;
     border-radius: 1rem;
+    touch-action: manipulation;
 }
 
 #display {
