@@ -16,7 +16,6 @@ let result = null;
 updateDisplay();
 
 // --- DISPLAY FUNCTIONS ---
-// 2/1/2025: In progress
 
 function updateDisplay() {
     // Update the display
