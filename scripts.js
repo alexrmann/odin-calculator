@@ -7,8 +7,6 @@ let displayValue = '0';
 let currentOperand = null;
 let previousOperand = null;
 let currentOperator = null;
-let previousOperator = null;
-let operation = null;
 let result = null;
 
 // --- INITIALIZE CALCULATOR ---
@@ -32,7 +30,6 @@ function clearDisplay() {
     currentOperand = null;
     previousOperand = null;
     currentOperator = null;
-    previousOperator = null;
     result = null;
 }
 
@@ -83,17 +80,15 @@ function inputOperand(value) {
 }
 
 function inputOperator(value) {
-
-    // NEED TO RESOLVE THIS BUGGED LOGIC
-    // Might need to start this function over because this is getting confusing.
     
-    if ((previousOperand == null) && (currentOperand == null)) {
-        displayValue = 'ERROR';
-    } else if (currentOperator == null) {      
-        currentOperator = value;
-    } else {
-        // previousOperator = currentOperator;
-        // currentOperator = value;
+    if (currentOperator == null) { // This section looks good now
+        if (currentOperand == null) {
+            break;
+        } else {      
+            previousOperand = currentOperand;
+            currentOperator = value;
+        }
+    } else { // Need to review and revise as needed
         if ((currentOperand != null) && (previousOperand == null)) {
             currentOperator = value;
             previousOperand = currentOperand;
@@ -103,13 +98,12 @@ function inputOperator(value) {
         } else if ((currentOperand != null) && (previousOperand != null)) {
             operate(currentOperator, Number(previousOperand), Number(currentOperand));
             displayValue = result;
-            previousOperator = currentOperator;
             currentOperator = value;
         }
     } 
     
+
     /* else {
-        previousOperator = currentOperator;
         currentOperator = value;
         previousOperand = 
         currentOperand = null;
@@ -173,7 +167,6 @@ function operate(operation, operand1, operand2) {
                     // This will likely produce a bug where the operands are not cleared. 
                     previousOperand = null;
                     currentOperand = null;
-                    previousOperator = null;
                     currentOperator = null;
                 }
                 result = divide(operand1, operand2);
@@ -183,7 +176,6 @@ function operate(operation, operand1, operand2) {
     // Reset globals for next operation
     previousOperand = currentOperand;
     currentOperand = null;
-    previousOperator = currentOperator;
     currentOperator = null;
 
     console.log(result);
