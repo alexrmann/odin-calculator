@@ -18,14 +18,15 @@ updateDisplay();
 function updateDisplay() {
     // Update the display
     display.innerText = displayValue;
-    
+
+    // 2/5/2025
+    // Substring not working with results--only input.
+
     // Prevent display text overflow
     if (displayValue.length > 12) {
         display.innerText = displayValue.substring(0, 12);
     }
 }
-
-// There is a bug where pressing the CLEAR button results in numbers larger than one digit (e.g., 25, 443, etc.) drop the first digit before resuming to collect subsequent digits (i.e. press 5, press 6, the display shows 6 and not 56).
 
 function clearDisplay() {
     displayValue = "0";
@@ -64,14 +65,8 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 function inputOperand(value) {
-    
-    // 2/2/2025
-    // Need to fix bug where after pressing operator button, the next digit pressed results in concatenation to the previous operand
 
     if (currentOperand == null || currentOperand == "0") {
-        currentOperand = value;
-    } else if (previousOperand == null && (currentOperand != null || currentOperand == "0")) {
-        previousOperand = currentOperand;
         currentOperand = value;
     } else {
         currentOperand = currentOperand.concat(value);
@@ -92,7 +87,7 @@ function inputOperator(value) {
                 currentOperand = null;
                 currentOperator = value; 
         }
-    } else { // Need to review and revise as needed
+    } else {
         if (previousOperand == null) {
             previousOperand = currentOperand;
         } else {
@@ -105,13 +100,6 @@ function inputOperator(value) {
         currentOperator = value;
         currentOperand = null;
     } 
-    
-
-    /* else {
-        currentOperator = value;
-        previousOperand = 
-        currentOperand = null;
-    } */
 
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
@@ -128,6 +116,7 @@ function inputSign(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
 
+// IN PROGRESS
 function inputDecimal(value) {
     console.log(`Input: ${value}\nDisplay: ${displayValue}`);
 }
@@ -146,7 +135,6 @@ function inputDelete() {
 }
 
 // --- OPERATE --- 
-// Bug, 2/2/2025: Operations currently don't work.
 
 function operate(operation, operand1, operand2) {
 
@@ -173,31 +161,28 @@ function operate(operation, operand1, operand2) {
             case 'divide':
                 if(operand2 == 0) {
                     result = "ERROR DIV 0";
-                    // This will likely produce a bug where the operands are not cleared. 
-                    previousOperand = null;
-                    currentOperand = null;
-                    currentOperator = null;
+                    break;
+                } else {
+                    result = divide(operand1, operand2);
                 }
-                result = divide(operand1, operand2);
         }
     }
     
-    // Reset globals for next operation
-    currentOperand = result;
+    // Set globals for next operation
+    if (result == "ERROR DIV 0") {
+        currentOperand = null;
+    } else {
+        currentOperand = result;
+    }
     previousOperand = null;
     currentOperator = null;
     
-    result = result.toString(); // Do I need to convert the result to a string first?
+    result = result.toString();
 
-    return result; // Should investigate whether the result should be passed through to other functions or whether this is bug prone.
+    return result;
 }
 
-/* ~~~ ARITHMETIC ~~~ 
-
-All functions return undefined.
-
-*/
-
+/* ~~~ ARITHMETIC ~~~ */
 
 // --- Addition ---
 
