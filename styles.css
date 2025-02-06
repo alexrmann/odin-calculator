@@ -169,24 +169,22 @@ body {
 /* Button types */
 
 button {
+    /* Override browser defaults */
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+
     display: flex;
     flex: 1 1 auto;
     width: 60px;
     background-color: mintcream;
+    color: #000000; /* Explicitly set button color */
     border: none;
     border-radius: 0.5em;
     padding: 2rem;
     align-items: center;
     justify-content: center;
     font-size: 2.4rem;
-}
-
-input[type=button] { 
-    /* Override Apple iOs default */
-    -webkit-appearance: none;
-
-    /* Explicitly set button color */
-    color: #000000;
 }
 
 .clear-buttons {
