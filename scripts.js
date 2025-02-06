@@ -53,7 +53,7 @@ for (let i = 0; i < buttons.length; i++) {
             inputDecimal(buttons[i].value);
             updateDisplay();
         } else if (buttons[i].id == 'sign') {
-            inputSign(displayValue);
+            inputSign();
             updateDisplay();
         } else if (buttons[i].id == 'delete') {
             inputDelete();
@@ -66,7 +66,10 @@ for (let i = 0; i < buttons.length; i++) {
 
 function inputOperand(value) {
 
-    if (currentOperand == null || currentOperand == "0") {
+    // BUG: There is still an issue with the logic of pressing the equals button resulting in concatenation upon the result.
+    if (currentOperand == null && previousOperand == null && currentOperator == null) {
+        currentOperand = value;
+    } else if (currentOperand == null || currentOperand == "0") {
         currentOperand = value;
     } else {
         currentOperand = currentOperand.concat(value);
@@ -112,7 +115,7 @@ function inputEquals() {
 }
 
 // IN PROGRESS
-function inputSign(value) {
+function inputSign() {
     if (Math.sign(currentOperand) >= 0) {
         currentOperand = -Math.abs(currentOperand);
     } else {
@@ -165,9 +168,11 @@ function operate(operation, operand1, operand2) {
                 break;
             case 'times':
                 result = multiply(operand1, operand2);
+                console.log(result);
+                console.log(result.toString().length);
                 break;
             case 'divide':
-                if(operand2 == 0) {
+                if(operand2 === 0) {
                     result = "ERROR DIV 0";
                     break;
                 } else {
@@ -175,18 +180,24 @@ function operate(operation, operand1, operand2) {
                 }
         }
     }
-    
+
     // Set globals for next operation
-    if (result == "ERROR DIV 0") {
+    if (result == "ERROR DIV 0") { // This only displays after hitting the Equals button or inputting a new operator.
         currentOperand = null;
+    } else if (result.toString().length > 12) {
+        console.log(typeof result); 
+        result = result.toExponential(4); // This will handle most cases with sufficient info, but it results in less accuracy.
+        currentOperand = result;
     } else {
+        result = result.toString();
         currentOperand = result;
     }
+
+    console.log(result);
+
     previousOperand = null;
     currentOperator = null;
-    
-    result = result.toString();
-
+ 
     return result;
 }
 
