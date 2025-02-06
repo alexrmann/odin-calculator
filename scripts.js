@@ -9,6 +9,8 @@ let previousOperand = null;
 let currentOperator = null;
 let result = null;
 
+let operationSwitch = false; // Initialize the operation switch
+
 // --- INITIALIZE CALCULATOR ---
 
 updateDisplay();
@@ -18,9 +20,6 @@ updateDisplay();
 function updateDisplay() {
     // Update the display
     display.innerText = displayValue;
-
-    // 2/5/2025
-    // Substring not working with results--only input.
 
     // Prevent display text overflow
     if (displayValue.length > 12) {
@@ -58,21 +57,30 @@ for (let i = 0; i < buttons.length; i++) {
         } else if (buttons[i].id == 'delete') {
             inputDelete();
             updateDisplay();
-        } else if (buttons[i].id == 'clear')
+        } else if (buttons[i].id == 'clear') {
             clearDisplay();
             updateDisplay();
+        }    
     });
 }
 
 function inputOperand(value) {
 
-    // BUG: There is still an issue with the logic of pressing the equals button resulting in concatenation upon the result.
-    if (currentOperand == null && previousOperand == null && currentOperator == null) {
+    // Testing operationSwitch logic
+    if (currentOperand == null) {
         currentOperand = value;
-    } else if (currentOperand == null || currentOperand == "0") {
-        currentOperand = value;
+        operationSwitch = false;
     } else {
-        currentOperand = currentOperand.concat(value);
+        if (operationSwitch == true) { // The operation switch prevents concatenation after an operation has been performed.
+            currentOperand = value;
+            operationSwitch = false;
+        } else {
+            if (currentOperand == "0") {
+                currentOperand = value;
+            } else {
+                currentOperand = currentOperand.concat(value);
+            }
+        }
     }
 
     displayValue = currentOperand;
@@ -133,13 +141,17 @@ function inputDecimal(value) {
 }
 
 function inputDelete() {
-
-    if (currentOperand.length == 1) {
-        currentOperand = null;
-        displayValue = "0";
+    if (operationSwitch == true) {
+        clearDisplay();
+        operationSwitch = false;
     } else {
-        currentOperand = currentOperand.substring(0, currentOperand.length - 1);
-        displayValue = currentOperand;
+        if (currentOperand.length == 1) {
+            currentOperand = null;
+            displayValue = "0";
+        } else {
+            currentOperand = currentOperand.substring(0, currentOperand.length - 1);
+            displayValue = currentOperand;
+        }
     }
 
     console.log(`Display: ${displayValue}\nCurrent Operand: ${currentOperand}`);
@@ -197,6 +209,7 @@ function operate(operation, operand1, operand2) {
 
     previousOperand = null;
     currentOperator = null;
+    operationSwitch = true;
  
     return result;
 }
