@@ -25,6 +25,8 @@ function updateDisplay() {
     }
 }
 
+// There is a bug where pressing the CLEAR button results in numbers larger than one digit (e.g., 25, 443, etc.) drop the first digit before resuming to collect subsequent digits (i.e. press 5, press 6, the display shows 6 and not 56).
+
 function clearDisplay() {
     displayValue = "0";
     currentOperand = null;
@@ -81,25 +83,27 @@ function inputOperand(value) {
 
 function inputOperator(value) {
     
-    if (currentOperator == null) { // This section looks good now
-        if (currentOperand == null) {
-            break;
-        } else {      
-            previousOperand = currentOperand;
-            currentOperator = value;
+    if (currentOperator == null) {
+        switch(currentOperand) {
+            case null:    
+                break;
+            default: 
+                previousOperand = currentOperand;
+                currentOperand = null;
+                currentOperator = value; 
         }
     } else { // Need to review and revise as needed
-        if ((currentOperand != null) && (previousOperand == null)) {
-            currentOperator = value;
+        if (previousOperand == null) {
             previousOperand = currentOperand;
-            currentOperand = null;
-        } else if ((currentOperand == null) && (previousOperand != null)) {
-            currentOperator = value;
-        } else if ((currentOperand != null) && (previousOperand != null)) {
+        } else {
             operate(currentOperator, Number(previousOperand), Number(currentOperand));
             displayValue = result;
-            currentOperator = value;
+            previousOperand = result;
+            console.log(previousOperand);
         }
+
+        currentOperator = value;
+        currentOperand = null;
     } 
     
 
@@ -129,7 +133,7 @@ function inputDecimal(value) {
 }
 
 function inputDelete() {
-    
+
     if (currentOperand.length == 1) {
         currentOperand = null;
         displayValue = "0";
@@ -147,9 +151,14 @@ function inputDelete() {
 function operate(operation, operand1, operand2) {
 
     console.log(`Operation: ${operation}\nFirst Operand: ${operand1}\nSecond Operand: ${operand2}`);
-    if (operand1 == null) {
-        // If equals is pressed when no current operand, display zero.
-        result = 0;
+    if (previousOperand == null) {
+        switch(currentOperand) {
+            case null: // If equals is pressed when no current operand, display zero.
+                result = 0;
+                break;
+            default:
+                result = currentOperand;
+        }
     } else {
         switch(operation) {
             case 'plus':
@@ -174,11 +183,12 @@ function operate(operation, operand1, operand2) {
     }
     
     // Reset globals for next operation
-    previousOperand = currentOperand;
-    currentOperand = null;
+    currentOperand = result;
+    previousOperand = null;
     currentOperator = null;
+    
+    result = result.toString(); // Do I need to convert the result to a string first?
 
-    console.log(result);
     return result; // Should investigate whether the result should be passed through to other functions or whether this is bug prone.
 }
 
